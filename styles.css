@@ -349,9 +349,7 @@ a{ color: inherit; text-decoration: none; }
 .p1{ background: url("assets/producto-yogurt.jpg") center/cover no-repeat; }
 .p2{ background: url("assets/producto-huevos.jpg") center/cover no-repeat; }
 .p3{
-  background:
-    linear-gradient(135deg, rgba(202,168,106,.55), rgba(138,90,43,.35)),
-    radial-gradient(closest-side, rgba(255,255,255,.45), transparent 70%);
+  background: url("assets/producto-milk.jpg") center/cover no-repeat;
 }
 
 /* Benefits */
