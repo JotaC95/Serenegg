@@ -1,0 +1,27 @@
+.dome-container {
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.dome-gallery {
+    /* Inline styles handle the transform logic */
+}
+
+.dome-item {
+    /* Inline styles handle the positioning */
+}
+
+/* Hover Effect: Scale up the wrapper on hover */
+.dome-item:hover .dome-img-wrapper {
+    transform: scale(1.15) translateZ(20px);
+    filter: brightness(1.2);
+    z-index: 10;
+}
+
+.dome-item img {
+    -webkit-user-drag: none;
+    user-drag: none;
+    pointer-events: none;
+    /* Prevent drag issues on img */
+}
