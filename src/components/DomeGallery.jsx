@@ -28,8 +28,19 @@ export default function DomeGallery({
     const reqId = useRef(null);
 
     const [selectedImage, setSelectedImage] = useState(null);
+    const [screenFactor, setScreenFactor] = useState(1);
 
-    const radius = Math.max(minRadius, 800);
+    // Responsive logic
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenFactor(window.innerWidth < 768 ? 0.6 : 1);
+        };
+        handleResize(); // init
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const radius = Math.max(minRadius * screenFactor, 400 * screenFactor);
 
     // Inertia loop
     useEffect(() => {

@@ -43,12 +43,23 @@ function Overlay() {
             left: '50%',
             transform: 'translateX(-50%)',
             textAlign: 'center',
-            pointerEvents: 'none', // Allow clicking through to gallery
-            zIndex: 10
+            pointerEvents: 'none',
+            zIndex: 10,
+            width: '90%',
+            maxWidth: '600px'
         }}>
-            <div style={{ pointerEvents: 'auto', background: 'rgba(255,255,255,0.7)', padding: '2rem', borderRadius: '32px', backdropFilter: 'blur(10px)' }}>
-                <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Sabor Real, Vida Libre</h1>
-                <p className="lead" style={{ marginBottom: '1.5rem' }}>
+            <div style={{
+                pointerEvents: 'auto',
+                background: 'rgba(255,255,255,0.7)',
+                padding: 'clamp(1rem, 5vw, 2rem)',
+                borderRadius: '32px',
+                backdropFilter: 'blur(10px)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+            }}>
+                <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', marginBottom: '1rem', lineHeight: 1.1 }}>Sabor Real, Vida Libre</h1>
+                <p className="lead" style={{ marginBottom: '1.5rem', fontSize: 'clamp(0.9rem, 3vw, 1.1rem)' }}>
                     La mejor selección de huevos de campo, directo de nuestras gallinas felices a tu mesa.
                 </p>
                 <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
@@ -57,7 +68,7 @@ function Overlay() {
                         target="_blank"
                         rel="noreferrer"
                         className="btn btn-whatsapp"
-                        style={{ textDecoration: 'none' }}
+                        style={{ textDecoration: 'none', fontSize: '1rem', padding: '12px 24px' }}
                     >
                         💬 Pedir Ahora
                     </a>
@@ -66,6 +77,7 @@ function Overlay() {
         </div>
     );
 }
+
 
 export default function App() {
     return (
