@@ -1,6 +1,7 @@
 import React from 'react';
 import DomeGallery from './components/DomeGallery';
 import { ShoppingCart } from 'lucide-react';
+import { motion } from 'framer-motion';
 import './index.css';
 
 import imgEggs from './assets/producto-huevos.jpg';
@@ -17,8 +18,16 @@ const galleryImages = Array.from({ length: 50 }).map((_, i) => {
 });
 
 function Header() {
+    const [isNavOpen, setIsNavOpen] = React.useState(false);
+
     return (
-        <header className="site-header" style={{ position: 'fixed', width: '100%', top: 0, background: 'rgba(243,239,230,0.6)' }}>
+        <motion.header
+            className="site-header"
+            style={{ position: 'fixed', width: '100%', top: 0, background: 'rgba(243,239,230,0.6)' }}
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+        >
             <div className="container header-inner">
                 <div className="brand-badge">
                     <span className="cow">🥚</span>
@@ -27,42 +36,57 @@ function Header() {
                         <span className="brand-sub">Huevos de Campo</span>
                     </div>
                 </div>
-                <nav className="nav">
-                    <a href="#contacto" className="btn btn-small">Pedir por WhatsApp</a>
+
+                <button
+                    className="nav-toggle"
+                    onClick={() => setIsNavOpen(!isNavOpen)}
+                    aria-label="Toggle navigation"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <nav className={`nav ${isNavOpen ? 'open' : ''}`}>
+                    <a href="#contacto" className="btn btn-small" onClick={() => setIsNavOpen(false)}>Pedir por WhatsApp</a>
                 </nav>
             </div>
-        </header>
+        </motion.header>
     );
 }
 
 function Overlay() {
     return (
-        <div style={{
-            position: 'absolute',
-            bottom: '10%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            textAlign: 'center',
-            pointerEvents: 'none',
-            zIndex: 10,
-            width: '90%',
-            maxWidth: '600px'
-        }}>
-            <div style={{
-                pointerEvents: 'auto',
-                background: 'rgba(255,255,255,0.7)',
-                padding: 'clamp(1rem, 5vw, 2rem)',
-                borderRadius: '32px',
-                backdropFilter: 'blur(10px)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-            }}>
-                <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', marginBottom: '1rem', lineHeight: 1.1 }}>Sabor Real, Vida Libre</h1>
-                <p className="lead" style={{ marginBottom: '1.5rem', fontSize: 'clamp(0.9rem, 3vw, 1.1rem)' }}>
+        <div className="overlay-container">
+            <motion.div
+                className="overlay-card"
+                initial={{ y: 100, opacity: 0, scale: 0.9 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            >
+                <motion.h1
+                    style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', marginBottom: '1rem', lineHeight: 1.1 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                >
+                    Sabor Real, Vida Libre
+                </motion.h1>
+                <motion.p
+                    className="lead"
+                    style={{ marginBottom: '1.5rem', fontSize: 'clamp(0.9rem, 3vw, 1.1rem)' }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                >
                     La mejor selección de huevos de campo, directo de nuestras gallinas felices a tu mesa.
-                </p>
-                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+                </motion.p>
+                <motion.div
+                    style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 }}
+                >
                     <a
                         href="https://wa.me/593992061458?text=Hola%20Hacienda%20La%20Serena,%20quiero%20huevos%20frescos"
                         target="_blank"
@@ -72,8 +96,8 @@ function Overlay() {
                     >
                         💬 Pedir Ahora
                     </a>
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
         </div>
     );
 }

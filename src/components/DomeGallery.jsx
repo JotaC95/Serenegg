@@ -26,6 +26,8 @@ export default function DomeGallery({
     const velocity = useRef({ x: 0, y: 0 });
     const isDragging = useRef(false);
     const reqId = useRef(null);
+    const autoRotateSpeed = 0.05; // Degrees per frame
+    const scale = useRef(0); // For entry animation
 
     const [selectedImage, setSelectedImage] = useState(null);
     const [screenFactor, setScreenFactor] = useState(1);
@@ -45,14 +47,22 @@ export default function DomeGallery({
     // Inertia loop
     useEffect(() => {
         const loop = () => {
+            // Entry animation: smooth lerp to scale 1
+            scale.current += (1 - scale.current) * 0.05;
+
             if (!isDragging.current) {
                 // Apply decay
                 velocity.current.x *= 0.95; // Decay factor
                 velocity.current.y *= 0.95;
 
-                // Stop if very slow
-                if (Math.abs(velocity.current.x) < 0.01) velocity.current.x = 0;
-                if (Math.abs(velocity.current.y) < 0.01) velocity.current.y = 0;
+                // Auto-rotation (only if velocity is low)
+                if (Math.abs(velocity.current.y) < 0.1 && Math.abs(velocity.current.x) < 0.1) {
+                    rotation.current.y += autoRotateSpeed;
+                }
+
+                // Stop if very slow (we don't want to fully stop if we are auto-rotating, so only stop velocity application)
+                // if (Math.abs(velocity.current.x) < 0.01) velocity.current.x = 0;
+                // if (Math.abs(velocity.current.y) < 0.01) velocity.current.y = 0;
 
                 // Apply velocity to rotation
                 rotation.current.x += velocity.current.x;
@@ -62,8 +72,18 @@ export default function DomeGallery({
                 rotation.current.x = Math.min(Math.max(rotation.current.x, -maxVerticalRotationDeg), maxVerticalRotationDeg);
 
                 // Update DOM
-                if (galleryRef.current && (velocity.current.x !== 0 || velocity.current.y !== 0)) {
+                if (galleryRef.current) {
                     galleryRef.current.style.transform = `
+            scale(${scale.current})
+            rotateX(${rotation.current.x}deg) 
+            rotateY(${rotation.current.y}deg)
+          `;
+                }
+            } else {
+                // Even while dragging, make sure we update scale if it's still animating
+                if (galleryRef.current) {
+                    galleryRef.current.style.transform = `
+            scale(${scale.current})
             rotateX(${rotation.current.x}deg) 
             rotateY(${rotation.current.y}deg)
           `;
@@ -88,16 +108,31 @@ export default function DomeGallery({
 
             // Track velocity for release
             velocity.current.y = delx / dragDampening;
-            velocity.current.x = -dely / dragDampening;
+            velocity.current.x = -dely / dragDampening; // Fix direction
 
             if (galleryRef.current) {
                 galleryRef.current.style.transform = `
+          scale(${scale.current})
           rotateX(${rotation.current.x}deg) 
           rotateY(${rotation.current.y}deg)
         `;
             }
         }
     });
+
+    // Double tap logic
+    const lastTap = useRef(0);
+
+    const handleTap = (img) => {
+        const now = Date.now();
+        const DOUBLE_TAP_DELAY = 300;
+
+        if (now - lastTap.current < DOUBLE_TAP_DELAY) {
+            setSelectedImage(img);
+        }
+
+        lastTap.current = now;
+    };
 
     return (
         <>
@@ -144,27 +179,35 @@ export default function DomeGallery({
                         const rotY = (theta_fibo * 180 / Math.PI) + 90;
                         const rotX = (phi_fibo * 180 / Math.PI) - 90;
 
+                        // Dynamic item size
+                        const itemWidth = 200 * screenFactor;
+                        const itemHeight = 260 * screenFactor;
+
                         return (
                             <div
                                 key={i}
                                 className="dome-item"
                                 style={{
                                     position: 'absolute',
-                                    left: '-100px',
-                                    top: '-130px',
-                                    width: '200px',
-                                    height: '260px',
+                                    left: `-${itemWidth / 2}px`,
+                                    top: `-${itemHeight / 2}px`,
+                                    width: `${itemWidth}px`,
+                                    height: `${itemHeight}px`,
                                     transform: `
                   translate3d(${xPos}px, ${yPos}px, ${zPos}px) 
                   rotateY(${rotY}deg) 
                   rotateX(${rotX}deg)
                 `,
                                     backfaceVisibility: 'hidden',
-                                    cursor: 'pointer'
+                                    cursor: 'pointer',
+                                    userSelect: 'none',
+                                    WebkitUserSelect: 'none',
+                                    WebkitTouchCallout: 'none',
+                                    WebkitTapHighlightColor: 'transparent'
                                 }}
-                                onClick={() => {
+                                onClick={(e) => {
                                     if (!isDragging.current) {
-                                        setSelectedImage(img);
+                                        handleTap(img);
                                     }
                                 }}
                             >
@@ -179,6 +222,7 @@ export default function DomeGallery({
                                             borderRadius: '12px',
                                             boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
                                             border: '2px solid rgba(255,255,255,0.8)',
+                                            pointerEvents: 'none' // Prevent img drag
                                         }}
                                         draggable={false}
                                     />
