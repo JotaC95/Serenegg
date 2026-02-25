@@ -11,7 +11,7 @@ const placeholderImages = Array.from({ length: 34 }).map((_, i) => ({
 
 export default function DomeGallery({
     fit = 0.8,
-    minRadius = 600,
+    minRadius = 1000,
     maxVerticalRotationDeg = 0,
     segments = 34,
     dragDampening = 2,
@@ -176,12 +176,12 @@ export default function DomeGallery({
                         const xPos = Math.cos(theta_fibo) * Math.sin(phi_fibo) * radius;
                         const zPos = Math.sin(theta_fibo) * Math.sin(phi_fibo) * radius;
 
-                        const rotY = (theta_fibo * 180 / Math.PI) + 90;
-                        const rotX = (phi_fibo * 180 / Math.PI) - 90;
+                        const rotY = -(theta_fibo * 180 / Math.PI) - 90;
+                        const rotX = -(phi_fibo * 180 / Math.PI) + 90;
 
                         // Dynamic item size
-                        const itemWidth = 200 * screenFactor;
-                        const itemHeight = 260 * screenFactor;
+                        const itemWidth = 280 * screenFactor;
+                        const itemHeight = 360 * screenFactor;
 
                         return (
                             <div

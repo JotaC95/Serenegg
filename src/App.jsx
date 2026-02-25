@@ -33,7 +33,7 @@ import userImg4 from './assets/user-gallina-4.jpg';
 import userImg5 from './assets/user-gallina-5.jpg';
 
 // Create a list of images (repeating the ones we have for the demo)
-const galleryImages = Array.from({ length: 50 }).map((_, i) => {
+const galleryImages = Array.from({ length: 110 }).map((_, i) => {
     const imgs = [
         userImg1,
         userImg2,
@@ -72,18 +72,31 @@ function Header() {
 
     return (
         <motion.header
-            className="site-header"
-            style={{ position: 'fixed', width: '100%', top: 0, background: 'rgba(243,239,230,0.6)' }}
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            className="site-header floating-header"
+            style={{
+                position: 'fixed',
+                width: 'calc(100% - 40px)',
+                maxWidth: '900px',
+                top: 20,
+                left: '50%',
+                background: 'rgba(255,255,255,0.85)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                borderRadius: '999px',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+                border: '1px solid rgba(255,255,255,0.6)',
+                zIndex: 100
+            }}
+            initial={{ y: -100, x: '-50%', opacity: 0 }}
+            animate={{ y: 0, x: '-50%', opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
         >
-            <div className="container header-inner">
+            <div className="container header-inner" style={{ width: '100%', padding: '10px 20px', margin: 0 }}>
                 <div className="brand-badge">
                     <span className="cow">🥚</span>
                     <div className="brand-text">
-                        <span className="brand-name">Hacienda<br />La Serena</span>
-                        <span className="brand-sub">Huevos de Campo</span>
+                        <span className="brand-name">Hacienda La Serena</span>
+                        <span className="brand-sub">Gallinas de Libre Pastoreo</span>
                     </div>
                 </div>
 
@@ -115,21 +128,27 @@ function Overlay() {
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             >
                 <motion.h1
-                    style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', marginBottom: '1rem', lineHeight: 1.1 }}
+                    style={{
+                        fontSize: 'clamp(1.8rem, 4.5vw, 2.6rem)',
+                        marginBottom: '0.8rem',
+                        lineHeight: 1.1,
+                        color: 'var(--brand)',
+                        textShadow: '0 2px 10px rgba(0,0,0,0.1)'
+                    }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
                 >
-                    Sabor Real, Vida Libre
+                    Gallinas de<br />Libre Pastoreo
                 </motion.h1>
                 <motion.p
                     className="lead"
-                    style={{ marginBottom: '1.5rem', fontSize: 'clamp(0.9rem, 3vw, 1.1rem)' }}
+                    style={{ marginBottom: '1.5rem', fontSize: 'clamp(0.9rem, 2vw, 1.05rem)', maxWidth: '350px', margin: '0 auto 1.5rem' }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
                 >
-                    La mejor selección de huevos de campo, directo de nuestras gallinas felices a tu mesa.
+                    Criadas al aire libre, nuestras gallinas disfrutan de la naturaleza para darte los mejores huevos de campo, directos a tu mesa.
                 </motion.p>
                 <motion.div
                     style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}
@@ -142,9 +161,16 @@ function Overlay() {
                         target="_blank"
                         rel="noreferrer"
                         className="btn btn-whatsapp"
-                        style={{ textDecoration: 'none', fontSize: '1rem', padding: '12px 24px' }}
+                        style={{
+                            textDecoration: 'none',
+                            fontSize: '1rem',
+                            padding: '12px 28px',
+                            borderRadius: '999px',
+                            fontWeight: 'bold',
+                            boxShadow: '0 6px 20px rgba(37, 211, 102, 0.3)'
+                        }}
                     >
-                        💬 Pedir Ahora
+                        💬 Pedir por WhatsApp
                     </a>
                 </motion.div>
             </motion.div>
@@ -162,9 +188,9 @@ export default function App() {
             <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
                 <DomeGallery
                     fit={0.8}
-                    minRadius={600}
-                    maxVerticalRotationDeg={10} // allow slight tilt
-                    segments={34}
+                    minRadius={1500} // increased to give images space
+                    maxVerticalRotationDeg={90} // allow full sphere rotation
+                    segments={110}
                     dragDampening={2}
                     grayscale={false}
                     images={galleryImages}
