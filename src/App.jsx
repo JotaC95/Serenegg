@@ -4,16 +4,66 @@ import { ShoppingCart } from 'lucide-react';
 import { motion } from 'framer-motion';
 import './index.css';
 
-import imgEggs from './assets/producto-huevos.jpg';
-import imgHistory from './assets/historia.jpg';
-import imgHero from './assets/hero.jpg';
+import imgHen1 from './assets/gallina-1.jpg';
+import imgHen2 from './assets/gallina-2.jpg';
+import imgHen3 from './assets/gallina-3.jpg';
+import imgHen4 from './assets/gallina-4.jpg';
+import imgHen5 from './assets/gallina-5.jpg';
+import imgHen6 from './assets/gallina-6.jpg';
+import imgHen7 from './assets/gallina-7.jpg';
+import imgHen8 from './assets/gallina-8.jpg';
+import imgHen9 from './assets/gallina-9.jpg';
+import imgHen10 from './assets/gallina-10.jpg';
+import imgHen11 from './assets/gallina-11.jpg';
+import imgHen12 from './assets/gallina-12.jpg';
+import imgHen13 from './assets/gallina-13.jpg';
+import imgHen14 from './assets/gallina-14.jpg';
+import imgHen15 from './assets/gallina-15.jpg';
+import imgHen16 from './assets/gallina-16.jpg';
+import imgHen17 from './assets/gallina-17.jpg';
+import imgHen18 from './assets/gallina-18.jpg';
+import imgHen19 from './assets/gallina-19.jpg';
+import imgHen20 from './assets/gallina-20.jpg';
+
+// Nuevas imágenes añadidas por el usuario
+import userImg1 from './assets/user-gallina-1.jpg';
+import userImg2 from './assets/user-gallina-2.jpg';
+import userImg3 from './assets/user-gallina-3.jpg';
+import userImg4 from './assets/user-gallina-4.jpg';
+import userImg5 from './assets/user-gallina-5.jpg';
 
 // Create a list of images (repeating the ones we have for the demo)
 const galleryImages = Array.from({ length: 50 }).map((_, i) => {
-    const imgs = [imgEggs, imgHero, imgHistory];
+    const imgs = [
+        userImg1,
+        userImg2,
+        userImg3,
+        userImg4,
+        userImg5,
+        imgHen1,
+        imgHen2,
+        imgHen3,
+        imgHen4,
+        imgHen5,
+        imgHen6,
+        imgHen7,
+        imgHen8,
+        imgHen9,
+        imgHen10,
+        imgHen11,
+        imgHen12,
+        imgHen13,
+        imgHen14,
+        imgHen15,
+        imgHen16,
+        imgHen17,
+        imgHen18,
+        imgHen19,
+        imgHen20
+    ];
     return {
         src: imgs[i % imgs.length],
-        title: i % 3 === 0 ? 'Huevos Frescos' : (i % 3 === 1 ? 'Vida de Campo' : 'Nuestra Historia')
+        title: 'Gallinas de Campo'
     };
 });
 
